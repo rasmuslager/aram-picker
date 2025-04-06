@@ -20,7 +20,7 @@ client.on('messageCreate', async message => {
     const req = await fetch(`https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion.json`);
     const champs = Object.keys((await req.json()).data);
     const shuffled = [...champs].sort(() => Math.random() - 0.5);
-    const [team1, team2] = [shuffled.slice(0, teamSize), shuffled.slice(teamSize, teamSize*2)] 
+    const [team1, team2] = [shuffled.slice(0, teamSize*3), shuffled.slice(teamSize*3, (teamSize*3)*2)];
 
     message.reply(`
     \n Team 1: \n ${team1.join(', ')}. 

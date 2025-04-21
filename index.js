@@ -1,5 +1,16 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 
+const durstenfeldShuffle = (array) => {
+  for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+  }
+
+  return array;
+}
+
 const client = new Client({ intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
@@ -19,7 +30,7 @@ client.on('messageCreate', async message => {
     const teamSize = message.content.match(/^!pick\s+(\d+)/)[1];
     const req = await fetch(`https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion.json`);
     const champs = Object.keys((await req.json()).data);
-    const shuffled = [...champs].sort(() => Math.random() - 0.5);
+    const shuffled = durstenfeldShuffle(champs);
     const [team1, team2] = [shuffled.slice(0, teamSize*3), shuffled.slice(teamSize*3, (teamSize*3)*2)];
 
     message.reply(`
